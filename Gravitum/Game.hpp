@@ -3,6 +3,7 @@
 #include "DrawBox.hpp"
 #include "ResourceLoader.hpp"
 #include <box2d/box2d.h>
+#include "World.h"
 
 class Game
 {
@@ -11,27 +12,15 @@ public:
     void run();
 
 private:
+    sf::RectangleShape rectangle;
+
     const float ppm = 16.f;
     const sf::Time TimePerFrame = sf::seconds(1.f / 60.f);
-    float timeStep;
-    int32 velocityIterations;
-    int32 positionIterations;
-
-    b2Vec2 gravity;
-    b2World world;
-
-    b2Body *mGroundBody;
-    b2BodyDef mGroundBodyDef;
-    b2PolygonShape mGroundShape;
-
-    bool mJump, mDown, mMoveLeft, mMoveRight;
 
     sf::RenderWindow mWindow;
-    sf::RectangleShape mGround;
-    DrawBox drawBox;
+    World mWorld;
 
     void processEvents();
-    void handlePlayerInput(sf::Keyboard::Key, bool);
     void update(sf::Time deltaTime);
     void render();
 };

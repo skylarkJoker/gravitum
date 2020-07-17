@@ -1,5 +1,14 @@
 #include "SceneNode.hpp"
 
+void SceneNode::update(sf::Time deltaTime)
+{
+    updateCurrent(deltaTime);
+    for (const mngPtr &child : mChildren)
+    {
+        child->update(deltaTime);
+    }
+}
+
 SceneNode::SceneNode() : mParent(nullptr) {}
 
 void SceneNode::attachChild(mngPtr child)
@@ -31,6 +40,7 @@ SceneNode::mngPtr SceneNode::detachChild(const SceneNode &node)
      return child;
     */
 }
+void SceneNode::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {}
 
 void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
@@ -41,4 +51,24 @@ void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const
     {
         child->draw(target, states);
     }
+}
+
+void SceneNode::updateCurrent(sf::Time) {}
+
+void SceneNode::updateChildren(sf::Time deltaTime) {
+    for (mngPtr& child: mChildren) {
+        child->update(deltaTime);
+    }
+}
+
+sf::Transform SceneNode::getWorldTransform() const {
+    sf::Transform transform = sf::Transform::Identity;
+    for (const SceneNode* node = this; node != nullptr; node = node->mParent) {
+        transform = node->getTransform() * transform;
+    }
+    return transform;
+}
+
+sf::Vector2f SceneNode::getWorldPosition() const {
+    return getWorldTransform() * sf::Vector2f();
 }

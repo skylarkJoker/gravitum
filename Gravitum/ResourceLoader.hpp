@@ -5,16 +5,7 @@
 #include <assert.h>
 #include "SFML/Graphics.hpp"
 
-namespace Textures
-{
-    enum class ID
-    {
-        Ground,
-        Player,
-        Player2,
-        Sword
-    };
-}
+
 
 template <typename Resource, typename Identifier>
 class ResourceLoader
@@ -32,3 +23,17 @@ private:
 };
 
 #include "ResourceLoader.inl"
+
+namespace Textures
+{
+    enum class ID
+    {
+        Background,
+        Ground,
+        Ice,
+        Player,
+        Player2,
+        Sword
+    };
+}
+typedef ResourceLoader<sf::Texture, Textures::ID> TextureLoader;

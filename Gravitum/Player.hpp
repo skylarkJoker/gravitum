@@ -14,21 +14,18 @@ public:
     };
 
 private:
-    typedef ResourceLoader<sf::Texture, Textures::ID> TextureLoader;
     Type mType;
-    float ppm = 16.f;
     sf::Sprite mSprite;
 
-    b2BodyDef mPlayerBodyDef;
-    b2Body *mPlayerBody;
-    b2PolygonShape mPlayerPolyShape;
-    b2FixtureDef mPlayerFixture;
+    float ppm = 16.f;
 
 public:
+    // explicit Player(Type);
     Player(Type, const TextureLoader &);
     virtual void drawCurrent(sf::RenderTarget &, sf::RenderStates) const;
-    void initBodies(b2World &, float, float);
+    virtual void updateCurrent(sf::Time);
+    virtual void setBodyPos(float, float, b2World&);
 
-    void setPosition(float, float);
-    void setPosition(b2Vec2);
+    void setupSprite();
+    void setSpritePos();
 };
