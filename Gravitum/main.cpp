@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 
-#include "DrawBox.hpp"
-#include "Game.hpp"
+#include "DrawBox.h"
+#include "Game.h"
 
 int main()
 {

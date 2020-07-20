@@ -1,9 +1,10 @@
-#include "Game.hpp"
+#include "Game.h"
 
 Game::Game() 
     : 
     mWindow(sf::VideoMode(1080, 1024), "Hub"),
-    mWorld(mWindow)
+    mWorld(mWindow),
+	mIsPaused(false)
 {
 }
 
@@ -18,7 +19,8 @@ void Game::run()
         {
             timeSinceLastUpdate -= TimePerFrame;
             processEvents();
-            update(TimePerFrame);
+			if(!mIsPaused)
+				update(TimePerFrame);
         }
         render();
     }
@@ -26,20 +28,20 @@ void Game::run()
 
 void Game::processEvents()
 {
+	CommandQueue& commands = mWorld.getCommandQueue();
+
     sf::Event event;
     while (mWindow.pollEvent(event))
     {
+		mPlayerEvent.handleEvent(event, commands);
         switch (event.type)
         {
-        case sf::Event::KeyPressed:
-            break;
-        case sf::Event::KeyReleased:
-            break;
         case sf::Event::Closed:
             mWindow.close();
             break;
         }
     }
+	mPlayerEvent.handleRealtimeInput(commands);
 }
 
 void Game::update(sf::Time deltaTime)

@@ -1,4 +1,5 @@
-#include "SceneNode.hpp"
+#include "SceneNode.h"
+#include "Command.h"
 
 void SceneNode::update(sf::Time deltaTime)
 {
@@ -71,4 +72,19 @@ sf::Transform SceneNode::getWorldTransform() const {
 
 sf::Vector2f SceneNode::getWorldPosition() const {
     return getWorldTransform() * sf::Vector2f();
+}
+
+unsigned int SceneNode::getCategory() const
+{
+	return Category::Scene;
+}
+
+void SceneNode::onCommand(const Command& command, sf::Time deltaTime) {
+	if (command.category & getCategory()) {
+		command.action(*this, deltaTime);
+	}
+
+	for (mngPtr& child : mChildren) {
+		child->onCommand(command, deltaTime);
+	}
 }

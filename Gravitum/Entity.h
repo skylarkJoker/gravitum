@@ -1,6 +1,6 @@
 #pragma once
 #include "box2d/box2d.h"
-#include "SceneNode.hpp"
+#include "SceneNode.h"
 
     struct Dim {
         int width, height;
@@ -32,7 +32,7 @@ public:
     void setDensity(float);
     void setFriction(float);
 
-    void setup(float, float, float, float);
+    void setup(float x, float y, float friction, float density);
 
 
 };

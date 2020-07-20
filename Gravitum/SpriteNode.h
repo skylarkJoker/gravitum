@@ -1,5 +1,5 @@
 #pragma once
-#include "SceneNode.hpp"
+#include "SceneNode.h"
 
 class SpriteNode :
     public SceneNode

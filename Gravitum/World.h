@@ -1,21 +1,24 @@
 #pragma once
 
 #include "SFML/System/NonCopyable.hpp"
-#include "ResourceLoader.hpp"
-#include "SceneNode.hpp"
-#include "SpriteNode.hpp"
-#include "Player.hpp"
+#include "ResourceLoader.h"
+#include "SceneNode.h"
+#include "SpriteNode.h"
+#include "Player.h"
 #include "Ground.h"
-#include "DrawBox.hpp"
+#include "DrawBox.h"
 #include <array>
+#include "CommandQueue.h"
 
 class World :
     private sf::NonCopyable
 {
 public:
     explicit World(sf::RenderWindow&);
+	~World();
     void update(sf::Time);
     void draw();
+	CommandQueue& getCommandQueue();
 
 private:
     void loadTextures();
@@ -30,6 +33,7 @@ private:
     };
 private:
 
+	CommandQueue mCommandQueue;
     sf::RenderWindow& mWindow;
     sf::View mWorldView;
 

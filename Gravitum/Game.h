@@ -1,9 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "DrawBox.hpp"
-#include "ResourceLoader.hpp"
+#include "DrawBox.h"
+#include "ResourceLoader.h"
 #include <box2d/box2d.h>
 #include "World.h"
+#include "PlayerEvent.h"
 
 class Game
 {
@@ -12,7 +13,8 @@ public:
     void run();
 
 private:
-    sf::RectangleShape rectangle;
+	PlayerEvent mPlayerEvent;
+	bool mIsPaused;
 
     const float ppm = 16.f;
     const sf::Time TimePerFrame = sf::seconds(1.f / 60.f);

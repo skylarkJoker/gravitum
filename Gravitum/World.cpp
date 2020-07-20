@@ -27,6 +27,9 @@ World::World(sf::RenderWindow& window)
 	drawBox.SetFlags(b2Draw::e_shapeBit);
 }
 
+World::~World() {
+}
+
 void World::loadTextures()
 {
 	mTextures.load(Textures::ID::Player, "img/tex/female/female_stand.png");
@@ -36,6 +39,7 @@ void World::loadTextures()
 	mTextures.get(Textures::ID::Ground).setRepeated(true);
 
 	mTextures.load(Textures::ID::Background, "img/tex/bg/backgroundEmpty.png");
+	mTextures.get(Textures::ID::Background).setRepeated(true);
 }
 
 void World::buildScene()
@@ -50,7 +54,7 @@ void World::buildScene()
 
 	//set background  
 	sf::Texture& texture = mTextures.get(Textures::ID::Background);
-	sf::IntRect textureRect(sf::FloatRect(0.f, 0.f, mWorldBounds.width, texture.getSize().y));
+	sf::IntRect textureRect(sf::FloatRect(-600.f, 0.f, mWorldBounds.width * 3.f, texture.getSize().y));
 	texture.setRepeated(true);
 
 	std::unique_ptr<SpriteNode> backgroundSprite(
@@ -72,7 +76,7 @@ void World::buildScene()
 		Player::Type::Main, mTextures));
 	mPlayer = playerOne.get();
 	mPlayer->setBodyPos(mSpawnPosition.x, mSpawnPosition.y, mWorld);
-	mPlayer->setup(80.f, 110.f, 1.f, 0.3f);
+	mPlayer->setup(80.f, 110.f, 0.f, 1.0f);
 	mPlayer->setupSprite();
 	mSceneLayers[Midground]->attachChild(std::move(playerOne));
 
@@ -84,9 +88,18 @@ void World::draw() {
 	mWorld.DebugDraw();
  }
 
+CommandQueue & World::getCommandQueue()
+{
+	return mCommandQueue;
+}
+
 void World::update(sf::Time deltaTime) {
 
-	//mWorldView.setCenter(mPlayer->getPosition());
+	mWorldView.setCenter(mPlayer->getPos().x, mPlayer->getPos().y - 200.f);
+	while (!mCommandQueue.isEmpty())
+	{
+		mSceneGraph.onCommand(mCommandQueue.pop(), deltaTime);
+	}
 	mWorld.Step(deltaTime.asSeconds(), velocityIterations, positionIterations);
 	mSceneGraph.update(deltaTime);
 }

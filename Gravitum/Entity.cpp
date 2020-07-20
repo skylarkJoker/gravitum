@@ -1,4 +1,4 @@
-#include "Entity.hpp"
+#include "Entity.h"
 
 Entity::Entity() 
     : 
@@ -65,7 +65,7 @@ void Entity::setup(float width, float height, float friction, float density) {
     dim.width =(int) width;
 
     mFixtureDef.shape = &shape;
-    mFixtureDef.friction = friction;
+    //mFixtureDef.friction = friction;
     mFixtureDef.density = density;
 
     mBody->CreateFixture(&mFixtureDef);

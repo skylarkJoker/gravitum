@@ -1,6 +1,6 @@
 #pragma once
-#include "Entity.hpp"
-#include "ResourceLoader.hpp"
+#include "Entity.h"
+#include "ResourceLoader.h"
 #include "box2d/box2d.h"
 #include "SFML/Graphics.hpp"
 
@@ -25,7 +25,11 @@ public:
     virtual void drawCurrent(sf::RenderTarget &, sf::RenderStates) const;
     virtual void updateCurrent(sf::Time);
     virtual void setBodyPos(float, float, b2World&);
+	virtual unsigned int getCategory() const;
 
     void setupSprite();
     void setSpritePos();
+
+	void moveBody(b2Vec2 velocity);
+	sf::Vector2f getPos();
 };
