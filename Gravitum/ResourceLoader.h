@@ -36,4 +36,15 @@ namespace Textures
         Sword
     };
 }
+
+namespace Fonts
+{
+    enum class ID
+    {
+        Title,
+        Subtitle,
+        BodyOne,
+    };
+}
 typedef ResourceLoader<sf::Texture, Textures::ID> TextureLoader;
+typedef ResourceLoader<sf::Font, Fonts::ID> FontLoader;

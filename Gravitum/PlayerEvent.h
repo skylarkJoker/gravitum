@@ -16,7 +16,7 @@ std::function<void(SceneNode&, sf::Time)> derivedAction(Function fn) {
 struct PlayerMove {
 	PlayerMove(b2Vec2 v):velocity(v){}
 
-	void operator() (Player& player, sf::Time) const {
+	void operator() (Player& player, sf::Time deltaTime) const {
 		player.moveBody(velocity);
 	}
 
@@ -25,8 +25,26 @@ struct PlayerMove {
 
 class PlayerEvent
 {
+
 public:
+	enum class Action {
+		MoveLeft,
+		MoveRight,
+		Stand
+	};
+public:
+	PlayerEvent();
 	void handleEvent(const sf::Event& event, CommandQueue& commands);
 	void handleRealtimeInput(CommandQueue& commands);
+
+	void assignKey(Action action, sf::Keyboard::Key key);
+	sf::Keyboard::Key getAssignedKey(Action action)const;
+
+private:
+	static bool isRealtimeAction(Action action);
+
+	float mSpeed = 30.f;
+	std::map<sf::Keyboard::Key, Action> mKeyBinding;
+	std::map<Action, Command> mActionBinding;
 };
 
